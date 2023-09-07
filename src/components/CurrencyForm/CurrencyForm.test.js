@@ -17,14 +17,17 @@ describe('Component CurrencyForm', () => {
     for (const testObj of testCases) {
       const action = jest.fn();  
       render(<CurrencyForm action={action} />);
+
       const submitButton = screen.getByText('Convert');
       const amountField = screen.getByTestId('amount');
       const currencyFromSelect = screen.getByTestId('currencyFrom');
       const currencyToSelect = screen.getByTestId('currencyTo');
+
       userEvent.type(amountField, testObj.amount);
       userEvent.selectOptions(currencyFromSelect, testObj.from);
       userEvent.selectOptions(currencyToSelect, testObj.to);
       userEvent.click(submitButton);
+
       expect(action).toHaveBeenCalledTimes(1);
       expect(action).toHaveBeenCalledWith({ amount: parseInt(testObj.amount), from: testObj.from, to: testObj.to });
       cleanup();        
