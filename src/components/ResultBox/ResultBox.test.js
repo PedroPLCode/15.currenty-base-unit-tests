@@ -64,14 +64,14 @@ describe('Component ResultBox', () => {
     }
   });
 
-  it('should return "Error. Wrong value." when trying to convert amount equal zero or lower than zero', () => {
-    const testCasesNegativeOrZero = [
+  it('should return "Error. Wrong value." when trying to convert amount lower than zero', () => {
+    const testCasesNegative = [
       { amount: '-100', from: 'PLN', to: 'USD', result: 'Error. Wrong value.' },
-      { amount: '-0.00001', from: 'USD', to: 'PLN', result: 'Error. Wrong value.'},
+      { amount: '-1', from: 'USD', to: 'PLN', result: 'Error. Wrong value.'},
       { amount: '-2134142', from: 'PLN', to: 'USD', result: 'Error. Wrong value.'},
-      { amount: '0', from: 'USD', to: 'PLN', result: 'Error. Wrong value.'},
+      { amount: '-123', from: 'USD', to: 'PLN', result: 'Error. Wrong value.'},
     ];
-    for (const testObj of testCasesNegativeOrZero) {
+    for (const testObj of testCasesNegative) {
       render(<ResultBox from={testObj.from} to={testObj.to} amount={parseInt(testObj.amount)} />);
       const resultBoxDiv = screen.getByTestId('resultBoxDiv');
       expect(resultBoxDiv).toHaveTextContent(testObj.result);

@@ -4,6 +4,7 @@ import { convertPLNToUSD } from './../../utils/convertPLNToUSD';
 import { formatAmountInCurrency } from './../../utils/formatAmountInCurrency';
 import { useMemo } from 'react';
 import styles from './ResultBox.module.scss';
+import { clsx } from 'clsx';
 
 const ResultBox = ({ from, to, amount }) => {
 
@@ -15,11 +16,17 @@ const ResultBox = ({ from, to, amount }) => {
 
   const formattedAmount = useMemo(() => formatAmountInCurrency(amount, from), [amount, from]);
 
-  return (
-    <div data-testid='resultBoxDiv' className={styles.result}>
-      {formattedAmount} = {convertedAmount}
-    </div>
-  );
+  if (amount < 0) {
+    return (
+      <div data-testid='resultBoxDiv' className={clsx(styles.result, styles.wrong)}>Error. Wrong value.</div>
+    );
+  } else {
+    return (
+      <div data-testid='resultBoxDiv' className={styles.result}>
+        {formattedAmount} = {convertedAmount}
+      </div>
+    );
+  }
 };
 
 ResultBox.propTypes = {
