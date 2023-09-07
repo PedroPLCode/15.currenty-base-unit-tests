@@ -37,5 +37,31 @@ describe('Component ResultBox', () => {
       cleanup();
     }
   });
+
+  it('should render proper info when trying to convert USD -> USD', () => {
+    const testCasesUSDtoUSD = [
+      { amount: '342', from: 'USD', to: 'USD', result: '$342.00 = $342.00' },
+      { amount: '234', from: 'USD', to: 'USD', result: '$234.00 = $234.00'},
+    ];
+    for (const testObj of testCasesUSDtoUSD) {
+      render(<ResultBox from={testObj.from} to={testObj.to} amount={parseInt(testObj.amount)} />);
+      const resultBoxDiv = screen.getByTestId('resultBoxDiv');
+      expect(resultBoxDiv).toHaveTextContent(testObj.result);
+      cleanup();
+    }
+  });
+
+  it('should render proper info when trying to convert PLN -> PLN', () => {
+    const testCasesPLNtoPLN = [
+      { amount: '350', from: 'PLN', to: 'PLN', result: 'PLN 350.00 = PLN 350.00' },
+      { amount: '543', from: 'PLN', to: 'PLN', result: 'PLN 543.00 = PLN 543.00'},
+    ];
+    for (const testObj of testCasesPLNtoPLN) {
+      render(<ResultBox from={testObj.from} to={testObj.to} amount={parseInt(testObj.amount)} />);
+      const resultBoxDiv = screen.getByTestId('resultBoxDiv');
+      expect(resultBoxDiv).toHaveTextContent(testObj.result);
+      cleanup();
+    }
+  });
 });
 
