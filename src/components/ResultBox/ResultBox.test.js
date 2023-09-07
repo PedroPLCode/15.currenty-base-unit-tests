@@ -9,13 +9,28 @@ describe('Component ResultBox', () => {
   });
 
   it('should render proper info about conversion when PLN -> USD', () => {
-    const testCases = [
+    const testCasesPLNtoUSD = [
       { amount: '100', from: 'PLN', to: 'USD', result: 'PLN 100.00 = $28.57' },
-      { amount: '20', from: 'USD', to: 'PLN', result: '$20.00 = PLN 70.00'},
+      { amount: '20', from: 'PLN', to: 'USD', result: 'PLN 20.00 = $5.71'},
       { amount: '200', from: 'PLN', to: 'USD', result: 'PLN 200.00 = $57.14' },
+      { amount: '345', from: 'PLN', to: 'USD', result: 'PLN 345.00 = $98.57' },
+    ];
+    for (const testObj of testCasesPLNtoUSD) {
+      render(<ResultBox from={testObj.from} to={testObj.to} amount={parseInt(testObj.amount)} />);
+      const resultBoxDiv = screen.getByTestId('resultBoxDiv');
+      expect(resultBoxDiv).toHaveTextContent(testObj.result);
+      cleanup();
+    }
+  });
+
+  it('should render proper info about conversion when USD -> PLN', () => {
+    const testCasesUSDtoPLN = [
+      { amount: '100', from: 'USD', to: 'PLN', result: '$100.00 = PLN 350.00' },
+      { amount: '20', from: 'USD', to: 'PLN', result: '$20.00 = PLN 70.00'},
+      { amount: '200', from: 'USD', to: 'PLN', result: '$200.00 = PLN 700.00' },
       { amount: '345', from: 'USD', to: 'PLN', result: '$345.00 = PLN 1,207.50' },
     ];
-    for (const testObj of testCases) {
+    for (const testObj of testCasesUSDtoPLN) {
       render(<ResultBox from={testObj.from} to={testObj.to} amount={parseInt(testObj.amount)} />);
       const resultBoxDiv = screen.getByTestId('resultBoxDiv');
       expect(resultBoxDiv).toHaveTextContent(testObj.result);
